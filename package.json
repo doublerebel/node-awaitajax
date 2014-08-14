@@ -27,7 +27,8 @@
   },
   "homepage": "https://github.com/doublerebel/node-awaitajax",
   "dependencies": {
-    "najax": ">=0.1.5"
+    "najax": ">=0.1.5",
+    "iced-runtime": "1.0.1"
   },
   "devDependencies": {
     "iced-coffee-script": ">=1.6.0"

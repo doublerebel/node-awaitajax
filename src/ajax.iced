@@ -1,5 +1,4 @@
-najax       = require "najax"
-{Pipeliner} = require "iced-coffee-script/lib/coffee-script/icedlib"
+najax = require "najax"
 
 
 extend = (target, sources...) ->
@@ -29,7 +28,7 @@ Ajax =
   throttle: 0
 
   queue: (request) ->
-    @pipeliner or= new Pipeliner @max, @throttle
+    @pipeliner or= new iced.Pipeliner @max, @throttle
     return @pipeliner.queue unless request
     await @pipeliner.waitInQueue defer()
     request @pipeliner.defer()
