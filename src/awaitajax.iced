@@ -1,4 +1,3 @@
-najax = require "najax"
 Ajax  = require "./ajax"
 
 
@@ -14,18 +13,19 @@ awaitAjax =
     options.success = rv.id('success').defer data, statusText, xhr # data, statusText, xhr
     options.error   = rv.id('error').defer xhr, statusText, data # xhr, statusText, error
 
-    if queue then @Q.ajaxQueue options
-    else najax options
+    q = new @Q
+    if queue then q.ajaxQueue options
+    else q.ajax options
 
     await rv.wait defer status
     cb status, xhr, statusText, data
 
   awaitGet: (options, cb, queue) ->
-    options.method = 'GET'
+    options.type = 'GET'
     @awaitAjax options, cb, queue
 
   awaitPost: (options, cb, queue) ->
-    options.method = 'GET'
+    options.type = 'POST'
     @awaitAjax options, cb, queue
 
   awaitQueuedAjax: (options, cb) ->

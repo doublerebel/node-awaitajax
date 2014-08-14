@@ -41,7 +41,7 @@ Ajax =
 
 class Base
   defaults:
-    contentType: 'application/json'
+    contentType: 'json'
     dataType: 'json'
     processData: false
     headers: {'X-Requested-With': 'XMLHttpRequest'}
@@ -63,7 +63,7 @@ class Base
     settings.error   = rv.id('error').defer xhr, statusText, error
 
     request = (next) ->
-      xhr = new Ajax(settings)
+      xhr = najax settings
       await rv.wait defer status
       switch status
         when 'success' then defersuccess data, statusText, xhr
