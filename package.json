@@ -1,0 +1,35 @@
+{
+  "name": "awaitajax",
+  "version": "0.0.1",
+  "description": "Turns Node http.request into single-callback form, for use with await/defer",
+  "main": "lib/awaitajax.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/doublerebel/node-awaitajax"
+  },
+  "keywords": [
+    "iced",
+    "coffeescript",
+    "await",
+    "defer",
+    "ajax",
+    "http",
+    "xhr",
+    "queue"
+  ],
+  "author": "doublerebel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/doublerebel/node-awaitajax/issues"
+  },
+  "homepage": "https://github.com/doublerebel/node-awaitajax",
+  "dependencies": {
+    "najax": ">=0.1.5"
+  },
+  "devDependencies": {
+    "iced-coffee-script": ">=1.6.0"
+  }
+}
