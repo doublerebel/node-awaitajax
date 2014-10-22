@@ -27,10 +27,10 @@
   },
   "homepage": "https://github.com/doublerebel/node-awaitajax",
   "dependencies": {
-    "najax": ">=0.1.5",
-    "iced-runtime": "1.0.1"
+    "control-najax": "^0.2.1",
+    "iced-runtime": "~1.0.1"
   },
   "devDependencies": {
-    "iced-coffee-script": ">=1.6.0"
+    "iced-coffee-script": "~1.7.0"
   }
 }
