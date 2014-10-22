@@ -1,6 +1,6 @@
 {
   "name": "awaitajax",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Turns Node http.request into single-callback form, for use with await/defer",
   "main": "lib/awaitajax.js",
   "scripts": {
