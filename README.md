@@ -1,5 +1,8 @@
 # awaitajax
 
+[![Dependency Status](https://david-dm.org/doublerebel/node-awaitajax.svg)](https://david-dm.org/doublerebel/node-awaitajax)
+[![devDependency Status](https://david-dm.org/doublerebel/node-awaitajax/dev-status.svg)](https://david-dm.org/doublerebel/node-awaitajax#info=devDependencies)
+
 Turns Node `http.request` into single-callback form, for use with await/defer
 
 ### What?
