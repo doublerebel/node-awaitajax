@@ -4,7 +4,7 @@
   "description": "Turns Node http.request into single-callback form, for use with await/defer",
   "main": "lib/awaitajax.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha --bail --require blanket --require iced-coffee-script/register test/**/*.iced"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,16 @@
     "iced-runtime": "~1.0.1"
   },
   "devDependencies": {
-    "iced-coffee-script": "~1.7.0"
+    "blanket": "^1.1.6",
+    "chai": "^1.10.0",
+    "iced-coffee-script": "~1.7.0",
+    "mocha": "^2.1.0",
+    "nock": "^0.59.1"
+  },
+  "config": {
+    "blanket": {
+      "pattern": "lib",
+      "data-cover-never": "node_modules"
+    }
   }
 }
