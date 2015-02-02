@@ -1,5 +1,6 @@
 # awaitajax
 
+[![Build Status](https://travis-ci.org/doublerebel/node-awaitajax.svg)](https://travis-ci.org/doublerebel/node-awaitajax)
 [![Dependency Status](https://david-dm.org/doublerebel/node-awaitajax.svg)](https://david-dm.org/doublerebel/node-awaitajax)
 [![devDependency Status](https://david-dm.org/doublerebel/node-awaitajax/dev-status.svg)](https://david-dm.org/doublerebel/node-awaitajax#info=devDependencies)
 
