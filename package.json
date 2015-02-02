@@ -33,7 +33,7 @@
   "devDependencies": {
     "blanket": "^1.1.6",
     "chai": "^1.10.0",
-    "iced-coffee-script": "~1.7.0",
+    "iced-coffee-script": "1.8.0-c",
     "mocha": "^2.1.0",
     "nock": "^0.59.1"
   },
