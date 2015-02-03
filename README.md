@@ -1,6 +1,7 @@
 # awaitajax
 
 [![Build Status][ci-master]][travis-ci]
+[![Coverage Status][coverage-master]][coveralls]
 [![Dependency Status][dependency]][david]
 [![devDependency Status][dev-dependency]][david]
 [![Downloads][downloads]][npm]
@@ -41,6 +42,8 @@ MIT Licensed
 
   [ci-master]: https://img.shields.io/travis/doublerebel/node-awaitajax/master.svg?style=flat-square
   [travis-ci]: https://travis-ci.org/doublerebel/node-awaitajax
+  [coverage-master]: https://img.shields.io/coveralls/doublerebel/node-awaitajax/master.svg?style=flat-square
+  [coveralls]: https://coveralls.io/r/doublerebel/node-awaitajax
   [dependency]: https://img.shields.io/david/doublerebel/node-awaitajax.svg?style=flat-square
   [david]: https://david-dm.org/doublerebel/node-awaitajax
   [dev-dependency]: https://img.shields.io/david/dev/doublerebel/node-awaitajax.svg?style=flat-square
