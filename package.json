@@ -5,6 +5,9 @@
   "main": "lib/awaitajax.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --bail --reporter mocha-lcov-reporter --require blanket --require iced-coffee-script/register test/**/*.iced | ./node_modules/coveralls/bin/coveralls.js",
+    "test-local": "./node_modules/.bin/mocha --bail --require blanket --require iced-coffee-script/register test/**/*.iced",
+    "html-cov": "./node_modules/.bin/mocha --bail --reporter html-cov --require blanket --require iced-coffee-script/register test/**/*.iced >coverage.html",
+    "lcov": "./node_modules/.bin/mocha --bail --reporter mocha-lcov-reporter --require blanket --require iced-coffee-script/register test/**/*.iced >lcov.info"
   },
   "repository": {
     "type": "git",
