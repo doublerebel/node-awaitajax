@@ -38,4 +38,4 @@ awaitAjax =
     @awaitPost options, cb, true
 
 
-module.exports = extend {}, Ajax, awaitAjax
+module.exports = extend Ajax, awaitAjax

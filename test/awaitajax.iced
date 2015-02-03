@@ -4,6 +4,10 @@ nock      = require "nock"
 should    = chai.should()
 
 
+testurl  = "www.example.com"
+httpurl  = "http://#{testurl}"
+httpsurl = "https://#{testurl}"
+
 createSuccess = (done) ->
   (status, xhr, statusText, data) ->
     if status is "error"
@@ -17,22 +21,65 @@ createSuccess = (done) ->
 testcount = 0
 
 
-describe "methods", ->
-  for method in "getUrl disable queue clearQueue".split " "
-    it "should respond to #{method}", ->
-      Ajax.should.itself.respondTo method
+describe "Ajax object", ->
 
-describe "defaults", ->
-  defaults =
-    enabled: true
-    max: 100
-    throttle: 0
+  describe "Ajax.methods", ->
+    for method in "getURL disable queue clearQueue".split " " then do (method) ->
+      it "should respond to #{method}", ->
+        Ajax.should.itself.respondTo method
 
-  for key, value of defaults
-    it "should default #{key} to #{value}", ->
-      Ajax[key].should.equal value
+  describe "Ajax.defaults", ->
+    defaults =
+      enabled: true
+      max: 100
+      throttle: 0
 
-describe "url", (next) ->
+    for key, value of defaults then do (key, value) ->
+      it "should default #{key} to #{value}", ->
+        Ajax[key].should.equal value
+
+  describe "Ajax.getURL", ->
+    it "should get URL from object.url", ->
+      obj = url: httpurl
+      url = Ajax.getURL obj
+      url.should.equal.httpurl
+
+    it "should get URL from object.url()", ->
+      obj = url: -> httpurl
+      url = Ajax.getURL obj
+      url.should.equal.httpurl
+
+  describe "Ajax.disable", ->
+    it "should disable itself while running a callback", (next) ->
+      Ajax.disable ->
+        Ajax.enabled.should.be.false
+        next()
+
+    it "should catch, throw and re-enable if callback throws an error", ->
+      thrower = -> throw new Error
+      (Ajax.disable.bind Ajax, thrower).should.throw(Error)
+      Ajax.enabled.should.be.true
+
+    it "should run callback immediately if disabled", (next) ->
+      Ajax.enabled.should.be.true
+      Ajax.enabled = false
+      Ajax.disable ->
+        Ajax.enabled = true
+        next()
+
+  describe "Ajax.queue", ->
+    it "should get the queue when called with no arguments", ->
+      Ajax.queue().should.be.instanceof Array
+
+  describe "Ajax.clearQueue", ->
+    it "should clear the queue", ->
+      Ajax.queue().push ->
+      Ajax.queue().should.not.be.empty
+      Ajax.clearQueue()
+      Ajax.queue().should.be.empty
+
+
+describe "url parsing and basic auth", (next) ->
   scope = undefined
   username = "user"
   password = "test"
@@ -41,88 +88,129 @@ describe "url", (next) ->
   Ajax.Q::defaults.dataType = 'text/plain'
 
   mockPlain = (method) ->
-    scope = nock("http://www.example.com")[method]("/").reply(200, "Ok")
+    scope = nock(httpurl)[method]("/")
+            .reply(200, "Ok")
 
   mockHttps = (method) ->
-    scope = nock("https://www.example.com")[method]("/").reply(200, "Ok")
+    scope = nock(httpsurl)[method]("/")
+            .reply(200, "Ok")
 
   mockAuth = (method) ->
-    scope = nock("http://www.example.com")[method]("/").matchHeader("authorization", "Basic " + encrypted).reply(200, "Ok")
+    scope = nock(httpurl)[method]("/")
+            .matchHeader("authorization", "Basic " + encrypted)
+            .reply(200, "Ok")
 
-  testcount += 8
-
-  it "should accept url as property of options object", (done) ->
-    mockPlain "get"
-    Ajax.awaitGet {url: "http://www.example.com"}, createSuccess done
-
-  it "should parse auth from the url", (done) ->
-    mockAuth "get"
-    Ajax.awaitGet {url: "http://" + authString + "@www.example.com"}, createSuccess done
-
-  it "should accept auth as property of options object", (done) ->
-    mockAuth "get"
-    Ajax.awaitGet {
-      url: "http://www.example.com"
-      auth: authString
-    }, createSuccess done
-
-  it "should accept username, password as properties of options object", (done) ->
-    mockAuth "get"
-    Ajax.awaitGet {
-      url: "http://www.example.com"
-      username: username
-      password: password
-    }, createSuccess done
-
-  it "should set port to 443 for https URLs", (done) ->
-    mockHttps "get"
-    Ajax.awaitGet {url: "https://www.example.com"}, createSuccess done
-
-  it "should set port to the port in the URL string", (done) ->
-    scope = nock("http://www.example.com:66").get("/").reply(200, "Ok")
-    Ajax.awaitGet {url: "http://www.example.com:66"}, createSuccess done
-
-  it "should set path to the path in the URL string", (done) ->
-    scope = nock("http://www.example.com:66").get("/blah").reply(200, "Ok")
-    Ajax.awaitGet {url: "http://www.example.com:66/blah"}, createSuccess done
-
-  testcount += 32
+  testcount += 14
 
   "get post".split(" ").forEach (m) ->
     M = m.toUpperCase()
     Mm = m[0].toUpperCase() + m[1..]
+    fn = "await#{Mm}"
 
-    it "#{M} should accept url as property of options object", (done) ->
+    it "#{fn} should accept url as property of options object", (done) ->
       mockPlain m
-      Ajax["await#{Mm}"] { url: "http://www.example.com" }, createSuccess done
+      Ajax[fn] { url: httpurl }, createSuccess done
 
-    it "#{M} should parse auth from the url", (done) ->
+    it "#{fn} should parse auth from the url", (done) ->
       mockAuth m
-      Ajax["await#{Mm}"] { url: "http://" + authString + "@www.example.com" }, createSuccess done
+      Ajax[fn] { url: "http://" + authString + "@#{testurl}" }, createSuccess done
 
-    it "#{M} should accept auth as property of options object", (done) ->
+    it "#{fn} should accept auth as property of options object", (done) ->
       mockAuth m
-      Ajax["await#{Mm}"] {
-        url: "http://www.example.com"
+      Ajax[fn] {
+        url: httpurl
         auth: authString
       }, createSuccess done
 
-    it "#{M} should accept username, password as properties of options object", (done) ->
+    it "#{fn} should accept username, password as properties of options object", (done) ->
       mockAuth m
-      Ajax["await#{Mm}"] {
-        url: "http://www.example.com"
+      Ajax[fn] {
+        url: httpurl
         username: username
         password: password
       }, createSuccess done
 
-    it "#{M} should set port to 443 for https URLs", (done) ->
+    it "#{fn} should set port to 443 for https URLs", (done) ->
       mockHttps m
-      Ajax["await#{Mm}"] {url: "https://www.example.com"}, createSuccess done
+      Ajax[fn] {url: httpsurl}, createSuccess done
 
-    it "#{M} should set port to the port in the URL string", (done) ->
-      scope = nock("http://www.example.com:66")[m]("/").reply(200, "Ok")
-      Ajax["await#{Mm}"] {url: "http://www.example.com:66"}, createSuccess done
+    it "#{fn} should set port to the port in the URL string", (done) ->
+      scope = nock("#{httpurl}:66")[m]("/").reply(200, "Ok")
+      Ajax[fn] {url: "#{httpurl}:66"}, createSuccess done
 
-    it "#{M} should set path to the path in the URL string", (done) ->
-      scope = nock("http://www.example.com:66")[m]("/blah").reply(200, "Ok")
-      Ajax["await#{Mm}"] {url: "http://www.example.com:66/blah"}, createSuccess done
+    it "#{fn} should set path to the path in the URL string", (done) ->
+      scope = nock("#{httpurl}:66")[m]("/blah").reply(200, "Ok")
+      Ajax[fn] {url: "#{httpurl}:66/blah"}, createSuccess done
+
+
+    describe "sequential and batch queueing", ->
+      qFn  = "awaitQueued#{Mm}"
+      data = {a: 2}
+      dataString = JSON.stringify data
+
+      mockQueued = (method, times) ->
+        if method is "post" then scope = nock(httpurl)[method]("/", data)
+        else                     scope = nock(httpurl)[method]("/")
+        scope.times(times)
+             .delay(Math.floor Math.random() * 20)
+             .reply(200, "Ok")
+
+      mockPreHack = (method, times) ->
+        if method is "post" then scope = nock(httpurl)[method]("/", data)
+        else                     scope = nock(httpurl)[method]("/?#{dataString}")
+        scope.times(times)
+             .delay(Math.floor Math.random() * 50)
+             .reply(200, "Ok")
+
+      it "#{qFn} should sequentially queue multiple calls", (done) ->
+        delete Ajax.pipeliner
+        Ajax.max = 1
+        calls    = 20
+        range    = [1..calls]
+        basket   = []
+        options  =
+          url: httpurl
+          processData: true
+        options.data = data if m is "post"
+
+        mockQueued m, calls
+        await
+          for i in range then do (i, deferred = defer()) ->
+            await Ajax[qFn] options, defer status
+            status.should.equal "success"
+            basket.push i
+            deferred()
+
+        basket[i-1].should.equal range[i-1] for i in range
+        Ajax.max = 100
+        done()
+
+      it "#{qFn} should batch queue multiple calls in sets", (done) ->
+        delete Ajax.pipeliner
+        max      = 5
+        Ajax.max = max
+        calls    = 20
+        range    = [1..calls]
+        live     = 0
+        options  =
+          url: httpurl
+          processData: true
+          contentType: "text/json"
+
+        class Fake
+          toString: ->
+            live++
+            live.should.be.at.most max
+            dataString
+        options.data = new Fake
+
+        mockPreHack m, calls
+        await
+          for i in range then do (deferred = defer()) ->
+            await Ajax[qFn] options, defer status
+            status.should.equal "success"
+            live--
+            deferred()
+
+        Ajax.max = 100
+        done()

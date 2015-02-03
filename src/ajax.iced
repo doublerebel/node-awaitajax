@@ -30,8 +30,16 @@ Ajax =
   queue: (request) ->
     @pipeliner or= new iced.Pipeliner @max, @throttle
     return @pipeliner.queue unless request
+
+    @pipeliner.queue.unshift request
+    await @process defer()
+    await @pipeliner.flush defer()
+
+  process: (cb) ->
     await @pipeliner.waitInQueue defer()
-    request @pipeliner.defer()
+    next = @pipeliner.queue.pop()
+    next @pipeliner.defer()
+    cb()
 
   clearQueue: ->
     @pipeliner.queue = []
@@ -45,7 +53,7 @@ class Base
     processData: false
     headers: {'X-Requested-With': 'XMLHttpRequest'}
 
-  queue: Ajax.queue
+  queue: Ajax.queue.bind Ajax
 
   ajax: (params, defaults) ->
     najax @ajaxSettings(params, defaults)
@@ -58,11 +66,11 @@ class Base
     defersuccess = settings.success
     defererror   = settings.error
 
-    settings.success = rv.id('success').defer data, statusText, xhr
-    settings.error   = rv.id('error').defer xhr, statusText, error
-
     request = (next) ->
+      settings.success = rv.id('success').defer data, statusText, xhr
+      settings.error   = rv.id('error').defer xhr, statusText, error
       xhr = najax settings
+
       await rv.wait defer status
       switch status
         when 'success' then defersuccess data, statusText, xhr
