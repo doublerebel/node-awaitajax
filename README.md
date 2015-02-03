@@ -1,8 +1,9 @@
 # awaitajax
 
-[![Build Status](https://travis-ci.org/doublerebel/node-awaitajax.svg)](https://travis-ci.org/doublerebel/node-awaitajax)
-[![Dependency Status](https://david-dm.org/doublerebel/node-awaitajax.svg)](https://david-dm.org/doublerebel/node-awaitajax)
-[![devDependency Status](https://david-dm.org/doublerebel/node-awaitajax/dev-status.svg)](https://david-dm.org/doublerebel/node-awaitajax#info=devDependencies)
+[![Build Status][ci-master]][travis-ci]
+[![Dependency Status][dependency]][david]
+[![devDependency Status][dev-dependency]][david]
+[![Downloads][downloads]][npm]
 
 Turns Node `http.request` into single-callback form, for use with await/defer
 
@@ -33,6 +34,16 @@ await Ajax.awaitQueuedGet {url: "http://siteaftergoogle.com"}, defer err, respon
 
 ### License
 
-Copyright 2014 Charles Phillips
+Copyright 2014-2015 Charles Phillips
 
 MIT Licensed
+
+
+  [ci-master]: https://img.shields.io/travis/doublerebel/node-awaitajax/master.svg?style=flat-square
+  [travis-ci]: https://travis-ci.org/doublerebel/node-awaitajax
+  [dependency]: https://img.shields.io/david/doublerebel/node-awaitajax.svg?style=flat-square
+  [david]: https://david-dm.org/doublerebel/node-awaitajax
+  [dev-dependency]: https://img.shields.io/david/dev/doublerebel/node-awaitajax.svg?style=flat-square
+  [david-dev]: https://david-dm.org/doublerebel/node-awaitajax#info=devDependencies
+  [downloads]: https://img.shields.io/npm/dm/awaitajax.svg?style=flat-square
+  [npm]: https://www.npmjs.org/package/awaitajax
