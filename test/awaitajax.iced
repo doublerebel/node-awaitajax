@@ -8,7 +8,7 @@ testurl  = "www.example.com"
 httpurl  = "http://#{testurl}"
 httpsurl = "https://#{testurl}"
 
-createSuccess = (done) ->
+createSuccess = (done, statusCode = 200) ->
   (status, xhr, statusText, data) ->
     if status is "error"
       console.log data
@@ -16,6 +16,15 @@ createSuccess = (done) ->
     status.should.equal "success"
     data.should.equal "Ok"
     xhr.status.should.equal 200
+    done()
+
+createError = (done, statusCode = 404) ->
+  (status, xhr, statusText, data) ->
+    if status is "success"
+      console.log data
+      console.log statusText
+    status.should.equal "error"
+    xhr.status.should.equal statusCode
     done()
 
 testcount = 0
@@ -100,6 +109,10 @@ describe "url parsing and basic auth", (next) ->
             .matchHeader("authorization", "Basic " + encrypted)
             .reply(200, "Ok")
 
+  mockFail = (method) ->
+    scope = nock(httpurl)[method]("/")
+            .reply(404, "Not Found")
+
   testcount += 14
 
   "get post".split(" ").forEach (m) ->
@@ -110,6 +123,10 @@ describe "url parsing and basic auth", (next) ->
     it "#{fn} should accept url as property of options object", (done) ->
       mockPlain m
       Ajax[fn] { url: httpurl }, createSuccess done
+
+    it "#{fn} should pass non-success replies as errors", (done) ->
+      mockFail m
+      Ajax[fn] { url: httpurl }, createError done
 
     it "#{fn} should parse auth from the url", (done) ->
       mockAuth m
@@ -161,6 +178,14 @@ describe "url parsing and basic auth", (next) ->
         scope.times(times)
              .delay(Math.floor Math.random() * 50)
              .reply(200, "Ok")
+
+      it "#{qFn} should accept url as property of options object", (done) ->
+        mockPlain m
+        Ajax[qFn] { url: httpurl }, createSuccess done
+
+      it "#{qFn} should pass non-success replies as errors", (done) ->
+        mockFail m
+        Ajax[qFn] { url: httpurl }, createError done
 
       it "#{qFn} should sequentially queue multiple calls", (done) ->
         delete Ajax.pipeliner
