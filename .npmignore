@@ -1,7 +1,6 @@
-node_modules/
 *.sublime-workspace
 *.sublime-project
 coverage.html
 send-codeclimate
 lcov.info
-
+.travis.yml
