@@ -35,12 +35,12 @@
   },
   "devDependencies": {
     "blanket": "^1.1.6",
-    "chai": "^1.10.0",
+    "chai": "^2.1.2",
     "coveralls": "^2.11.2",
-    "iced-coffee-script": "1.8.0-c",
+    "iced-coffee-script": "^1.8.0-d",
     "mocha": "^2.1.0",
-    "mocha-lcov-reporter": "0.0.1",
-    "nock": "^0.59.1"
+    "mocha-lcov-reporter": "0.0.2",
+    "nock": "^1.2.1"
   },
   "config": {
     "blanket": {
