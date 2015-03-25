@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/doublerebel/node-awaitajax",
   "dependencies": {
-    "najax": "alanclarke/najax",
+    "najax": "najaxjs/najax",
     "iced-runtime": "doublerebel/iced-runtime"
   },
   "devDependencies": {
