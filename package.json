@@ -34,13 +34,13 @@
     "iced-runtime": "doublerebel/iced-runtime"
   },
   "devDependencies": {
-    "blanket": "^1.1.6",
-    "chai": "^2.1.2",
-    "coveralls": "^2.11.2",
-    "iced-coffee-script": "^1.8.0-d",
-    "mocha": "^2.1.0",
-    "mocha-lcov-reporter": "0.0.2",
-    "nock": "^1.2.1"
+    "blanket": "^1.2.2",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.8",
+    "iced-coffee-script": "^108.0.9",
+    "mocha": "^2.4.5",
+    "mocha-lcov-reporter": "1.2.0",
+    "nock": "^7.2.2"
   },
   "config": {
     "blanket": {
