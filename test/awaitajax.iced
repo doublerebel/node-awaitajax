@@ -220,7 +220,7 @@ describe "url parsing and basic auth", (next) ->
         options  =
           url: httpurl
           processData: true
-          contentType: "text/json"
+          contentType: "application/json"
 
         class Fake
           toString: ->
