@@ -174,7 +174,7 @@ describe "url parsing and basic auth", (next) ->
 
       mockPreHack = (method, times) ->
         if method is "post" then scope = nock(httpurl)[method]("/", data)
-        else                     scope = nock(httpurl)[method]("/?#{dataString}")
+        else                     scope = nock(httpurl)[method]("/").query(data)
         scope.times(times)
              .delay(Math.floor Math.random() * 50)
              .reply(200, "Ok")
@@ -221,13 +221,10 @@ describe "url parsing and basic auth", (next) ->
           url: httpurl
           processData: true
           contentType: "application/json"
-
-        class Fake
-          toString: ->
+          data: data
+          beforeSend: ->
             live++
             live.should.be.at.most max
-            dataString
-        options.data = new Fake
 
         mockPreHack m, calls
         await
