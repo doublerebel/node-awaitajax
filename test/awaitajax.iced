@@ -1,4 +1,4 @@
-Ajax      = require "../lib/awaitajax"
+Ajax      = require "../src/awaitajax"
 chai      = require "chai"
 nock      = require "nock"
 should    = chai.should()
