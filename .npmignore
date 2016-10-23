@@ -4,3 +4,4 @@ coverage.html
 send-codeclimate
 lcov.info
 .travis.yml
+coverage/
