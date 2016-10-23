@@ -3,10 +3,12 @@
 [![Build Status][ci-master]][travis-ci]
 [![Coverage Status][coverage-master]][coveralls]
 [![Dependency Status][dependency]][david]
-[![devDependency Status][dev-dependency]][david]
+[![devDependency Status][dev-dependency]][david-dev]
 [![Downloads][downloads]][npm]
 
 Turns Node `http.request` into single-callback form, for use with await/defer
+
+[![NPM][npm-stats]][npm]
 
 ### What?
 
@@ -47,6 +49,7 @@ MIT Licensed
   [dependency]: https://img.shields.io/david/doublerebel/node-awaitajax.svg?style=flat-square
   [david]: https://david-dm.org/doublerebel/node-awaitajax
   [dev-dependency]: https://img.shields.io/david/dev/doublerebel/node-awaitajax.svg?style=flat-square
-  [david-dev]: https://david-dm.org/doublerebel/node-awaitajax#info=devDependencies
+  [david-dev]: https://david-dm.org/doublerebel/node-awaitajax?type=dev
   [downloads]: https://img.shields.io/npm/dm/awaitajax.svg?style=flat-square
   [npm]: https://www.npmjs.org/package/awaitajax
+  [npm-stats]: https://nodei.co/npm/awaitajax.png?downloads=true&downloadRank=true&stars=true
