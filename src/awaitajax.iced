@@ -18,7 +18,13 @@ awaitAjax =
     else q.ajax options
 
     await rv.wait defer status
-    cb status, xhr, statusText, data
+    switch status
+      when "success" then cb null, data, statusText, xhr
+      else
+        err      = new Error statusText
+        err.data = data
+        err.xhr  = xhr
+        cb err
 
   awaitGet: (options, cb, queue) ->
     options.type = 'GET'

@@ -9,22 +9,17 @@ httpurl  = "http://#{testurl}"
 httpsurl = "https://#{testurl}"
 
 createSuccess = (done, statusCode = 200) ->
-  (status, xhr, statusText, data) ->
-    if status is "error"
+  (err, data, statusText, xhr) ->
+    if err
       console.log data
       console.log statusText
-    status.should.equal "success"
     data.should.equal "Ok"
     xhr.status.should.equal 200
     done()
 
 createError = (done, statusCode = 404) ->
-  (status, xhr, statusText, data) ->
-    if status is "success"
-      console.log data
-      console.log statusText
-    status.should.equal "error"
-    xhr.status.should.equal statusCode
+  (err) ->
+    err.xhr.status.should.equal statusCode
     done()
 
 testcount = 0
@@ -201,8 +196,8 @@ describe "url parsing and basic auth", (next) ->
         mockQueued m, calls
         await
           for i in range then do (i, deferred = defer()) ->
-            await Ajax[qFn] options, defer status
-            status.should.equal "success"
+            await Ajax[qFn] options, defer err
+            err?.should.not.exist
             basket.push i
             deferred()
 
@@ -229,8 +224,8 @@ describe "url parsing and basic auth", (next) ->
         mockPreHack m, calls
         await
           for i in range then do (deferred = defer()) ->
-            await Ajax[qFn] options, defer status
-            status.should.equal "success"
+            await Ajax[qFn] options, defer err
+            err?.should.not.exist
             live--
             deferred()
 
