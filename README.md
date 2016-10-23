@@ -37,9 +37,9 @@ await Ajax.awaitQueuedGet {url: "http://siteaftergoogle.com"}, defer err, respon
 
 ### License
 
-Copyright 2014-2015 Charles Phillips
+MIT
 
-MIT Licensed
+Copyright 2014-2016 Charles Phillips
 
 
   [ci-master]: https://img.shields.io/travis/doublerebel/node-awaitajax/master.svg?style=flat-square
